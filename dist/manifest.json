@@ -13,13 +13,13 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.ts-loader-R8ANRF5s.js"
+        "assets/index.ts-loader-fr9T2Psv.js"
       ],
       "matches": [
         "https://*.youtube.com/*"
       ],
       "css": [
-        "assets/index-BCsPVoL9.css"
+        "assets/index-CzpadlKP.css"
       ]
     }
   ],
@@ -47,7 +47,7 @@
         "https://*.youtube.com/*"
       ],
       "resources": [
-        "assets/index.ts-Co2lrnIH.js"
+        "assets/index.ts-Das_D68F.js"
       ],
       "use_dynamic_url": false
     }

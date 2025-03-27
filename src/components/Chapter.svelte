@@ -165,7 +165,7 @@
     background-color: #252525;
     padding-left: 14px;
 
-    width: 100%;
+    width: 312px;
   }
 
   .move-left,
