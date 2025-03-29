@@ -2,11 +2,11 @@
   import Clear from "./icons/clear.svelte";
   import Move from "./icons/move.svelte";
   import Moon from "./icons/moon.svelte";
-  import { unmount } from "svelte";
 
   import ToolbarBg from "./icons/toolbar-bg.svelte";
   import { store } from "../store.svelte";
 
+  let toolbarEl: HTMLDivElement;
   let isDragging = false;
 
   let offsetX = 0;
@@ -24,10 +24,26 @@
   }
 
   function handleMouseMove(event: MouseEvent) {
-    if (isDragging) {
-      // Update x and y based on how far the mouse is from the right/bottom edges
-      store.x = window.innerWidth - event.clientX - offsetX;
-      store.y = window.innerHeight - event.clientY - offsetY;
+    if (isDragging && toolbarEl) {
+      const toolbarWidth = toolbarEl.offsetWidth;
+      const toolbarHeight = toolbarEl.offsetHeight;
+
+      // Raw new positions from mouse
+      const x = window.innerWidth - event.clientX - offsetX;
+      const y = window.innerHeight - event.clientY - offsetY;
+
+      // Clamp so the toolbar doesn't move outside the viewport
+      const clampedX = Math.min(
+        Math.max(0, x),
+        window.innerWidth - toolbarWidth
+      );
+      const clampedY = Math.min(
+        Math.max(0, y),
+        window.innerHeight - toolbarHeight
+      );
+
+      store.x = clampedX;
+      store.y = clampedY;
     }
   }
 
@@ -52,7 +68,7 @@
   }
 </script>
 
-<div class="toolbar">
+<div class="toolbar" bind:this={toolbarEl}>
   <div class="bg">
     <ToolbarBg />
   </div>

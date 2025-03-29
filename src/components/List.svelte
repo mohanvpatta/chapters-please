@@ -60,7 +60,7 @@
     flex-direction: column;
     gap: 12px;
 
-    max-height: 420px;
+    max-height: 366px;
     overflow-y: scroll;
     overflow-x: hidden;
   }

@@ -44,7 +44,7 @@
     hovered = true;
 
     store.message =
-      chapter.id === "required-chapter" ? "Required chapter at 0s" : null;
+      chapter.id === "required-chapter" ? "Required chapter at 00:00:00" : null;
   }
 
   function handleMouseLeave() {

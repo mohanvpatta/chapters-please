@@ -5,9 +5,9 @@
     "src": "../../../../../@crx/manifest",
     "isEntry": true
   },
-  "_index.ts-loader-fr9T2Psv.js": {
-    "file": "assets/index.ts-loader-fr9T2Psv.js",
-    "src": "_index.ts-loader-fr9T2Psv.js"
+  "_index.ts-loader-B3k9UEno.js": {
+    "file": "assets/index.ts-loader-B3k9UEno.js",
+    "src": "_index.ts-loader-B3k9UEno.js"
   },
   "src/background/index.ts": {
     "file": "assets/index.ts-DkHpvlh1.js",
@@ -16,12 +16,12 @@
     "isEntry": true
   },
   "src/content/index.ts": {
-    "file": "assets/index.ts-Das_D68F.js",
+    "file": "assets/index.ts-BhvYPyvs.js",
     "name": "index.ts",
     "src": "src/content/index.ts",
     "isEntry": true,
     "css": [
-      "assets/index-CzpadlKP.css"
+      "assets/index-x0RvFQwM.css"
     ]
   }
 }

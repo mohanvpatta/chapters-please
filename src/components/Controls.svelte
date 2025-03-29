@@ -141,7 +141,7 @@
 
 <style>
   .controls {
-    margin: 40px 22px 22px;
+    margin: 56px 26px 26px 26px;
 
     display: flex;
     justify-content: space-between;
