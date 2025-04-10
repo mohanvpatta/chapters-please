@@ -6,9 +6,9 @@
   xmlns="http://www.w3.org/2000/svg"
 >
   <path
-    d="M6.50008 6.49992L13.4997 13.4996M13.4997 6.50024L6.50016 13.4996"
+    d="M5.99967 6.00016L14.0001 14.0005M14.0001 6L5.99976 14.0003"
     stroke="currentColor"
-    stroke-width="2"
+    stroke-width="3"
     stroke-linecap="round"
   />
 </svg>

@@ -1,14 +1,52 @@
 <svg
-  width="46"
-  height="20"
-  viewBox="0 0 46 20"
+  width="18"
+  height="18"
+  viewBox="0 0 18 18"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <rect x="4" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
-  <rect x="11" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
-  <rect x="18" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
-  <rect x="25" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
-  <rect x="32" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
-  <rect x="39" y="3" width="3" height="14" rx="1.5" fill="currentColor" />
+  <path
+    d="M6.74978 14.0625L7.93913 15.2518C8.52488 15.8376 9.47468 15.8376 10.0604 15.2518L11.2498 14.0625C11.2498 14.0625 9.97164 13.0001 9 13C8.0282 12.9999 6.74978 14.0625 6.74978 14.0625Z"
+    fill="currentColor"
+  />
+  <path
+    d="M3.93728 11.25L2.74793 10.0606C2.16215 9.47489 2.16215 8.52509 2.74793 7.93934L3.93728 6.74999C3.93728 6.74999 5 8.02823 5 9C5 9.97176 3.93728 11.25 3.93728 11.25Z"
+    fill="currentColor"
+  />
+  <path
+    d="M6.74978 3.93749L7.93913 2.74814C8.52488 2.16239 9.47468 2.16239 10.0604 2.74814L11.2498 3.93749C11.2498 3.93749 9.97165 4.99992 9 5C8.02819 5.00007 6.74978 3.93749 6.74978 3.93749Z"
+    fill="currentColor"
+  />
+  <path
+    d="M14.0623 6.74999L15.2516 7.93934C15.8374 8.52509 15.8374 9.47489 15.2516 10.0606L14.0623 11.25C14.0623 11.25 13 9.97168 13 9C13 8.02831 14.0623 6.74999 14.0623 6.74999Z"
+    fill="currentColor"
+  />
+  <path
+    d="M6.74978 14.0625L7.93913 15.2518C8.52488 15.8376 9.47468 15.8376 10.0604 15.2518L11.2498 14.0625C11.2498 14.0625 9.97164 13.0001 9 13C8.0282 12.9999 6.74978 14.0625 6.74978 14.0625Z"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M3.93728 11.25L2.74793 10.0606C2.16215 9.47489 2.16215 8.52509 2.74793 7.93934L3.93728 6.74999C3.93728 6.74999 5 8.02823 5 9C5 9.97176 3.93728 11.25 3.93728 11.25Z"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M6.74978 3.93749L7.93913 2.74814C8.52488 2.16239 9.47468 2.16239 10.0604 2.74814L11.2498 3.93749C11.2498 3.93749 9.97165 4.99992 9 5C8.02819 5.00007 6.74978 3.93749 6.74978 3.93749Z"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M14.0623 6.74999L15.2516 7.93934C15.8374 8.52509 15.8374 9.47489 15.2516 10.0606L14.0623 11.25C14.0623 11.25 13 9.97168 13 9C13 8.02831 14.0623 6.74999 14.0623 6.74999Z"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>

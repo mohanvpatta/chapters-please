@@ -1,9 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import Controls from "../components/controls.svelte";
+  import List from "../components/list.svelte";
+  import Menu from "../components/menu.svelte";
+  import Note from "../components/note.svelte";
   import { store } from "../store.svelte";
-  import Controls from "./Controls.svelte";
-  import List from "./List.svelte";
-  import Toolbar from "./Toolbar.svelte";
+  import { animate } from "motion";
+
+  let overlayEl: HTMLDivElement;
 
   onMount(() => {
     store.video = document.querySelector("video");
@@ -40,21 +44,25 @@
   $effect(() => {
     localStorage.setItem("chapters-please", JSON.stringify(store.chapters));
   });
+
+  $effect(() => {
+    if (store.ambience) {
+      animate(overlayEl, { height: "100%" });
+    } else {
+      animate(overlayEl, { height: "0%" });
+    }
+  });
+
+  $inspect(store.chapters);
 </script>
 
 <div id="chapters-please">
-  <div id="overlay" class:enabled={store.ambience}></div>
-  <div id="app" style="right: {store.x}px; bottom: {store.y}px; ">
-    <Toolbar />
+  <div id="overlay" bind:this={overlayEl}></div>
+  <div id="app" style="right: {store.right}px; bottom: {store.bottom}px;">
+    <Menu />
     <div class="main">
       <List />
-      <div class="caption">
-        {#if store.message}
-          {store.message}
-        {:else}
-          {store.chapters.length} chapters are sorted and saved!
-        {/if}
-      </div>
+      <Note />
       <Controls />
     </div>
   </div>
@@ -65,38 +73,39 @@
     inset: 0;
     position: fixed;
     background-color: rgba(0, 0, 0);
-    opacity: 0;
+    opacity: 0.7;
+    height: 0%;
 
     pointer-events: none;
   }
 
-  .enabled {
-    opacity: 0.7 !important;
-  }
-
   #app {
-    background-color: #151515;
-    border-radius: 16px;
-
-    width: 460px;
-
     position: fixed;
-    /* bottom: 80px;
-    right: 20px; */
-
-    z-index: 999999;
   }
 
   .main {
-    z-index: 10;
-    position: relative;
+    width: 460px;
+    background-color: #151515;
+
+    border-radius: 16px 16px 42px 42px;
   }
 
-  .caption {
-    color: #666666;
-    width: fit-content;
+  :global(body) {
+    background-color: #101010;
+    color: #eeeeee;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
 
-    margin: 16px auto 4px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+  }
+
+  ::selection {
+    color: #eeeeee;
+    background: #3a3a3a;
   }
 
   #chapters-please {

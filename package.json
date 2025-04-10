@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-svelte-typescript-boilerplate",
-  "description": "Boilerplate for Chrome Extension Svelte Typescript project",
-  "version": "1.0.1",
+  "name": "chapters-please",
+  "description": "Pain-free YouTube chapters",
+  "version": "1.0.2",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nekitcorp/chrome-extension-svelte-typescript-boilerplate.git"
+    "url": "https://github.com/mohanvpatta/chapters-please"
   },
   "scripts": {
     "dev": "vite",

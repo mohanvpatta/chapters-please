@@ -1,10 +1,17 @@
-import { writable, type Writable } from "svelte/store";
-import type { Chapter } from "./types";
+import type { ChapterType } from "./store.svelte";
 
-export function getTimestamp(time: number) {
-  const hours = Math.floor(time / 3600);
-  const minutes = Math.floor((time % 3600) / 60);
-  const seconds = Math.floor(time % 60);
+export let initialChapters: ChapterType[] = [
+  {
+    timestamp: 0,
+    title: "Click to rename",
+    id: "required-chapter",
+  },
+];
+
+export function getTimestamp(timestamp: number) {
+  const hours = Math.floor(timestamp / 3600);
+  const minutes = Math.floor((timestamp % 3600) / 60);
+  const seconds = Math.floor(timestamp % 60);
   return `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
@@ -30,33 +37,20 @@ export function generateRandomId(length: number) {
   return id;
 }
 
-export let initialChapters: Chapter[] = [
-  {
-    time: 0,
-    title: "Click to rename",
-    id: "required-chapter",
-  },
-];
-
 export function isValidChapters(
   data: any
 ): data is Array<{ time: number; title: string; id: string }> {
   if (!Array.isArray(data)) return false;
   return data.every(
     (chapter) =>
-      typeof chapter.time === "number" &&
+      typeof chapter.timestamp === "number" &&
       typeof chapter.title === "string" &&
       typeof chapter.id === "string"
   );
 }
 
-export function didStateChangeAfterClear(chapters: Chapter[]) {
-  if (
-    chapters.length === 1 &&
-    chapters[0].id === "required-chapter" &&
-    chapters[0].title === "Click to rename" &&
-    chapters[0].time === 0
-  ) {
+export function didStateChangeAfterClear(chapters: ChapterType[]) {
+  if (JSON.stringify(chapters) === JSON.stringify(initialChapters)) {
     return false;
   }
   return true;

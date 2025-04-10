@@ -1,25 +1,28 @@
-import { generateRandomId, isValidChapters, initialChapters } from "./utils";
-import type { Chapter } from "./types";
+import { generateRandomId, initialChapters, isValidChapters } from "./utils";
+
+export type ChapterType = {
+  timestamp: number;
+  title: string;
+  id: string;
+};
 
 class Store {
   video: HTMLVideoElement | null = $state(null);
-  isPlaying = $state(false);
+  isPlaying: boolean = $state(false);
   current = $state(0);
+  chapters: ChapterType[] = $state(initialChapters);
   updatedChapterId = $state(null) as string | null;
-  chapters = $state<Chapter[]>(initialChapters);
   ambience = $state(true);
-
   message = $state(null) as string | null;
 
-  x = $state(100);
-  y = $state(150);
+  right = $state(20);
+  bottom = $state(20);
 
   constructor() {
-    const saved = localStorage.getItem("chapters-please");
     try {
+      const saved = localStorage.getItem("chapters-please");
       if (saved) {
-        const parsedChapters = JSON.parse(saved);
-
+        const parsedChapters = JSON.parse(saved) as ChapterType[];
         if (isValidChapters(parsedChapters)) {
           this.chapters = parsedChapters;
         }
@@ -41,7 +44,7 @@ class Store {
   retrieveChapters() {
     const backup = localStorage.getItem("backup-please");
     if (backup) {
-      const parsedChapters = JSON.parse(backup);
+      const parsedChapters = JSON.parse(backup) as ChapterType[];
 
       if (isValidChapters(parsedChapters)) {
         this.chapters = parsedChapters;
@@ -81,7 +84,7 @@ class Store {
     let id = generateRandomId(10);
     if (this.video) {
       this.chapters.push({
-        time: this.video.currentTime,
+        timestamp: this.video.currentTime,
         title: "",
         id,
       });
@@ -92,7 +95,7 @@ class Store {
     this.updatedChapterId = id;
   }
 
-  deleteChapter(id: string) {
+  removeChapter(id: string) {
     this.chapters = this.chapters.filter((chapter) => chapter.id !== id);
   }
 
@@ -100,7 +103,7 @@ class Store {
     this.chapters.sort((a, b) => {
       if (a.id === "required-chapter") return -1;
       if (b.id === "required-chapter") return 1;
-      return a.time - b.time;
+      return a.timestamp - b.timestamp;
     });
   }
 }

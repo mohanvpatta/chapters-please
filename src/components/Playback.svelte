@@ -1,13 +1,15 @@
 <script lang="ts">
-  import Current from "./Current.svelte";
-  import Back from "./icons/back.svelte";
-  import Forward from "./icons/forward.svelte";
+  import { animate, hover, press } from "motion";
+  import ForwardIcon from "./icons/forward.svelte";
+  import RewindIcon from "./icons/rewind.svelte";
+  import Add from "./add.svelte";
   import { store } from "../store.svelte";
-  import { animate, press } from "motion";
-  import { onMount } from "svelte";
 
-  let backIcon: HTMLButtonElement;
-  let forwardIcon: HTMLButtonElement;
+  let rewindButton: HTMLButtonElement;
+  let forwardButton: HTMLButtonElement;
+
+  let rewindHover = $state(false);
+  let forwardHover = $state(false);
 
   function handleRewind() {
     store.rewind();
@@ -17,58 +19,87 @@
     store.forward();
   }
 
-  onMount(() => {
-    press(backIcon, (el) => {
-      animate(el, {
-        scale: 0.8,
-      });
+  $effect(() => {
+    hover(rewindButton, (button) => {
+      animate(button, { scale: 1.1 });
 
       return () => {
-        animate(el, {
-          scale: 1,
-        });
+        animate(button, { scale: 1 });
       };
     });
 
-    press(forwardIcon, (el) => {
-      animate(el, {
-        scale: 0.8,
-      });
+    hover(forwardButton, (button) => {
+      animate(button, { scale: 1.1 });
 
       return () => {
-        animate(el, {
-          scale: 1,
-        });
+        animate(button, { scale: 1 });
+      };
+    });
+
+    press(rewindButton, (button) => {
+      animate(button, { scale: 0.8 });
+
+      return () => {
+        animate(button, { scale: rewindHover ? 1.1 : 1 });
+      };
+    });
+
+    press(forwardButton, (button) => {
+      animate(button, { scale: 0.8 });
+
+      return () => {
+        animate(button, { scale: forwardHover ? 1.1 : 1 });
       };
     });
   });
 </script>
 
-<div class="playback">
-  <button class="back icon" onclick={handleRewind} bind:this={backIcon}>
-    <Back />
+<div class="container">
+  <button
+    class="rewind"
+    bind:this={rewindButton}
+    onclick={handleRewind}
+    onmouseenter={() => (rewindHover = true)}
+    onmouseleave={() => (rewindHover = false)}
+  >
+    <RewindIcon />
   </button>
-  <Current />
-  <button class="forward icon" onclick={handleForward} bind:this={forwardIcon}>
-    <Forward />
+  <Add />
+  <button
+    class="forward"
+    bind:this={forwardButton}
+    onclick={handleForward}
+    onmouseenter={() => (forwardHover = true)}
+    onmouseleave={() => (forwardHover = false)}
+  >
+    <ForwardIcon />
   </button>
 </div>
 
 <style>
-  .playback {
+  .container {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
 
-  .icon {
-    height: 36px;
+  .rewind,
+  .forward {
     width: 36px;
+    height: 36px;
+    border-radius: 50%;
 
-    border-radius: 50px;
-    color: #eeeeee;
     background-color: #3b3b3b;
 
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+    transform-origin: center;
+  }
+
+  button {
     display: flex;
     justify-content: center;
     align-items: center;

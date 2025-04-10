@@ -1,44 +1,18 @@
 <script lang="ts">
-  import CrossSmall from "./icons/cross-small.svelte";
-  import Left from "./icons/left.svelte";
-  import Right from "./icons/right.svelte";
   import { getTimestamp } from "../utils";
+  import DeleteIcon from "./icons/delete.svelte";
+  import MoveLeftIcon from "./icons/move-left.svelte";
+  import MoveRightIcon from "./icons/move-right.svelte";
+  import { animate } from "motion";
   import { store } from "../store.svelte";
-  import { animate, hover, press } from "motion";
-  import { onMount } from "svelte";
 
   let { chapter } = $props();
   let hovered = $state(false);
 
-  let deleteIcon: HTMLButtonElement;
+  let removeEl: HTMLButtonElement;
 
-  let left: HTMLDivElement;
-  let right: HTMLDivElement;
-
-  function handleBack() {
-    if (chapter.time < 1) return;
-    store.seek(chapter.time - 1);
-    chapter.time -= 1;
-
-    store.updatedChapterId = chapter.id;
-    store.sortChapters();
-  }
-
-  function handleForward() {
-    store.seek(chapter.time + 1);
-    chapter.time += 1;
-
-    store.updatedChapterId = chapter.id;
-    store.sortChapters();
-  }
-
-  function handleDelete() {
-    store.deleteChapter(chapter.id);
-  }
-
-  function handleSeek() {
-    store.seek(chapter.time);
-  }
+  let leftEl: HTMLDivElement;
+  let rightEl: HTMLDivElement;
 
   function handleMouseEnter() {
     hovered = true;
@@ -53,29 +27,52 @@
     store.message = null;
   }
 
-  onMount(() => {
-    hover(deleteIcon, (el) => {
-      animate(el, {
-        scale: 1.1,
-      });
+  function handleRemove() {
+    store.removeChapter(chapter.id);
+  }
 
-      return () => {
-        animate(el, {
-          scale: 1,
-        });
-      };
-    });
-  });
+  function handleBack() {
+    if (chapter.timestamp < 1) return;
+    store.seek(chapter.timestamp - 1);
+    chapter.timestamp -= 1;
+
+    store.updatedChapterId = chapter.id;
+    store.sortChapters();
+  }
+
+  function handleForward() {
+    store.seek(chapter.timestamp + 1);
+    chapter.timestamp += 1;
+
+    store.updatedChapterId = chapter.id;
+    store.sortChapters();
+  }
+
+  function handleSeek() {
+    store.seek(chapter.timestamp);
+  }
 
   $effect(() => {
     if (store.updatedChapterId === chapter.id) {
       document.getElementById(chapter.id)?.focus();
 
       animate([
-        [left, { backgroundColor: "#434343" }],
-        [right, { backgroundColor: "#434343" }, { at: "<" }],
-        [left, { backgroundColor: "#252525" }, { at: "+0.5" }],
-        [right, { backgroundColor: "#252525" }, { at: "<" }],
+        [leftEl, { backgroundColor: "#343434", borderColor: "#4C4C4C" }],
+        [
+          rightEl,
+          { backgroundColor: "#343434", borderColor: "#4C4C4C" },
+          { at: "<" },
+        ],
+        [
+          leftEl,
+          { backgroundColor: "#252525", borderColor: "#252525" },
+          { at: "+0.5" },
+        ],
+        [
+          rightEl,
+          { backgroundColor: "#252525", borderColor: "#252525" },
+          { at: "<" },
+        ],
       ]).then(() => {
         store.updatedChapterId = null;
       });
@@ -84,151 +81,162 @@
 </script>
 
 <div
-  class="chapter"
+  id={chapter.id}
+  class="container chapter"
   role="region"
   onmouseenter={handleMouseEnter}
   onmouseleave={handleMouseLeave}
-  class:chapter-hovered={hovered}
+  class:chapter-hovered={hovered && chapter.id !== "required-chapter"}
+  class:disabled={chapter.id === "required-chapter"}
 >
-  <div class="left" bind:this={left}>
-    <button
-      class="move-left"
-      onclick={handleBack}
-      class:disabled={chapter.id === "required-chapter"}
-    >
-      <Left />
+  <div class="left" bind:this={leftEl}>
+    <button class="move-left" onclick={handleBack}>
+      <MoveLeftIcon />
     </button>
-    <button class="time" onclick={handleSeek}
-      >{getTimestamp(chapter.time)}</button
+    <button class="timestamp" onclick={handleSeek}
+      >{getTimestamp(chapter.timestamp)}</button
     >
-    <button
-      class="move-right"
-      onclick={handleForward}
-      class:disabled={chapter.id === "required-chapter"}
-    >
-      <Right />
+    <button class="move-right" onclick={handleForward}>
+      <MoveRightIcon />
     </button>
   </div>
-  <div class="right" bind:this={right}>
-    <input type="title" bind:value={chapter.title} id={chapter.id} />
-    <button
-      class="icon delete"
-      onclick={handleDelete}
-      bind:this={deleteIcon}
-      class:disabled={chapter.id === "required-chapter"}
-    >
-      <CrossSmall />
+  <div class="right" bind:this={rightEl}>
+    <input class="title" type="text" bind:value={chapter.title} />
+    <button class="remove" bind:this={removeEl} onclick={handleRemove}>
+      <DeleteIcon />
     </button>
   </div>
 </div>
 
 <style>
-  input {
-    background: transparent;
-    outline: none;
-    border: none;
-    color: #eeeeee;
-
-    padding: 0;
+  .container {
     height: 42px;
-    width: 100%;
-  }
+    border-radius: 8px;
+    flex-shrink: 0;
 
-  .chapter {
     display: flex;
-    flex-direction: row;
     gap: 10px;
 
-    height: 42px;
-
-    color: #eeeeee;
-    border-radius: 8px;
+    overflow: hidden;
   }
 
   .left {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+    width: 110px;
     border-radius: 8px;
     background-color: #252525;
 
-    width: 110px;
-    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    border: 1px solid #252525;
   }
 
   .right {
+    width: 312px;
+    border-radius: 8px;
+    background-color: #252525;
+
     display: flex;
     align-items: center;
 
-    border-radius: 8px;
-    background-color: #252525;
-    padding-left: 14px;
+    position: relative;
 
-    width: 312px;
+    border: 1px solid #252525;
+  }
+
+  .timestamp {
+    font-family: "Roboto Mono", monospace !important;
+    font-size: 14px;
+    color: #eeeeee;
+
+    user-select: none;
   }
 
   .move-left,
   .move-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: transparent;
-    padding-right: 8px;
-
-    color: rgba(255, 255, 255, 0.2);
-    opacity: 0;
+    position: absolute;
+    width: 14px;
+    height: 100%;
+    color: #414141;
+    padding: 0;
 
     &:hover {
-      color: rgba(255, 255, 255, 0.8);
+      color: #bbbbbb;
     }
   }
 
   .move-left {
-    padding: 13px 0px 13px 3px;
+    left: 2px;
   }
 
   .move-right {
-    padding: 13px 3px 13px 0px;
+    right: 2px;
   }
 
-  .time {
-    font-family: "Roboto Mono", monospace !important;
-    background: none;
+  .title {
     color: #eeeeee;
-    padding: 0;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding-left: 14px;
+    padding-right: 14px;
+    width: 100%;
   }
 
-  .delete {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .chapter-hovered {
+    .title {
+      width: 286px !important;
+    }
+  }
 
-    height: 32px;
-    width: 32px;
+  .remove {
+    position: absolute;
+    top: 0px;
+    right: 0px;
 
-    background-color: transparent;
-    padding-right: 8px;
+    height: 42px;
+    border-radius: 8px;
 
-    color: rgba(255, 255, 255, 0.2);
-    opacity: 0;
+    color: #525252;
+
+    padding: 11px 11px 11px 12px;
 
     &:hover {
-      color: rgba(255, 255, 255, 0.8);
+      color: #bbbbbb;
     }
+  }
+
+  .move-left,
+  .move-right,
+  .remove {
+    opacity: 0;
   }
 
   .chapter-hovered {
     .move-left,
     .move-right,
-    .delete {
+    .remove {
       opacity: 1;
     }
   }
 
+  button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+
+    cursor: pointer;
+  }
+
   .disabled {
-    opacity: 0 !important;
-    pointer-events: none;
+    .move-left,
+    .move-right,
+    .remove {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
   }
 </style>
