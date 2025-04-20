@@ -81,7 +81,6 @@
 </script>
 
 <div
-  id={chapter.id}
   class="container chapter"
   role="region"
   onmouseenter={handleMouseEnter}
@@ -101,7 +100,12 @@
     </button>
   </div>
   <div class="right" bind:this={rightEl}>
-    <input class="title" type="text" bind:value={chapter.title} />
+    <input
+      class="title"
+      type="text"
+      bind:value={chapter.title}
+      id={chapter.id}
+    />
     <button class="remove" bind:this={removeEl} onclick={handleRemove}>
       <DeleteIcon />
     </button>
@@ -110,7 +114,7 @@
 
 <style>
   .container {
-    height: 42px;
+    height: 43px;
     border-radius: 8px;
     flex-shrink: 0;
 
@@ -166,6 +170,9 @@
     &:hover {
       color: #bbbbbb;
     }
+
+    display: flex;
+    align-items: center;
   }
 
   .move-left {

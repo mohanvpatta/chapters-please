@@ -1,7 +1,7 @@
 {
   "name": "chapters-please",
   "description": "Pain-free YouTube chapters",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "repository": {
     "type": "git",
